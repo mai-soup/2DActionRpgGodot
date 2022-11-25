@@ -15,5 +15,6 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCELERATION * delta)
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
-		
-	move_and_collide(velocity * delta)
+	
+	# reassign velocity from move and slide's remnant after collision	
+	velocity = move_and_slide(velocity)
