@@ -1,6 +1,8 @@
 extends KinematicBody2D
 
-onready var animationPlayer: = $AnimationPlayer
+onready var animPlayer: = $AnimationPlayer
+onready var animTree: = $AnimationTree
+onready var animState = animTree.get("parameters/playback")
 
 const ACCELERATION: = 500
 const MAX_SPEED: = 80
@@ -16,13 +18,17 @@ func _physics_process(delta: float) -> void:
 		Input.get_action_strength("move_up")
 	
 	if input_vector != Vector2.ZERO:
-		if input_vector.x > 0:
-			animationPlayer.play("RunRight")
-		else:
-			animationPlayer.play("RunLeft")
+		# set up blend positions for both animations
+		animTree.set("parameters/Idle/blend_position", input_vector)
+		animTree.set("parameters/Run/blend_position", input_vector)
+		# play the run animations
+		animState.travel("Run")
+		# accelerate
 		velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCELERATION * delta)
 	else:
-		animationPlayer.play("IdleRight")
+		# play the idle animations
+		animState.travel("Idle")
+		# decelerate
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
 	
 	# reassign velocity from move and slide's remnant after collision	
