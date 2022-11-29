@@ -17,7 +17,7 @@ func _ready() -> void:
 	# only activate animation tree when the game is started
 	animTree.active = true
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	match state:
 		MOVE:
 			move_state(delta)
