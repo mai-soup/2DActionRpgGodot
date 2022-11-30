@@ -7,11 +7,13 @@ onready var animState = animTree.get("parameters/playback")
 const ACCELERATION: = 500
 const MAX_SPEED: = 80
 const FRICTION: = 500
+const ROLL_FACTOR: = 1.5
 
 enum { MOVE, ROLL, ATTACK }
 
 var state: = MOVE
 var velocity: = Vector2.ZERO
+var rollVector: = Vector2.LEFT
 
 func _ready() -> void:
 	# only activate animation tree when the game is started
@@ -34,10 +36,13 @@ func move_state(delta: float) -> void:
 		Input.get_action_strength("move_up")
 	
 	if input_vector != Vector2.ZERO:
-		# set up blend positions for both animations
+		# set up blend positions for all animations
 		animTree.set("parameters/Idle/blend_position", input_vector)
 		animTree.set("parameters/Run/blend_position", input_vector)
 		animTree.set("parameters/Attack/blend_position", input_vector)
+		animTree.set("parameters/Roll/blend_position", input_vector)
+		# set roll vector to the input direction
+		rollVector = input_vector
 		# play the run animations
 		animState.travel("Run")
 		# accelerate
@@ -48,18 +53,29 @@ func move_state(delta: float) -> void:
 		# decelerate
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
 	
-	# reassign velocity from move and slide's remnant after collision	
-	velocity = move_and_slide(velocity)
+	move()
 	
 	if Input.is_action_just_pressed("attack"):
 		state = ATTACK
+	elif Input.is_action_just_pressed("roll"):
+		state = ROLL
 
 func attack_state(_delta: float) -> void:
 	velocity = Vector2.ZERO
 	animState.travel("Attack")
 
 func roll_state(_delta: float) -> void:
-	pass
+	# roll doesnt have acceleration, just goes straight to max speed x roll const
+	velocity = rollVector * MAX_SPEED * ROLL_FACTOR
+	animState.travel("Roll")
+	move()
 	
 func attack_anim_finished() -> void:
 	state = MOVE
+
+func roll_anim_finished() -> void:
+	state = MOVE
+
+func move() -> void:
+	# reassign velocity from move and slide's remnant after collision	
+	velocity = move_and_slide(velocity)
