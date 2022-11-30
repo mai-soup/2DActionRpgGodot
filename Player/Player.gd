@@ -3,6 +3,7 @@ extends KinematicBody2D
 onready var animPlayer: = $AnimationPlayer
 onready var animTree: = $AnimationTree
 onready var animState = animTree.get("parameters/playback")
+onready var swordHitbox = $HitboxPivot/SwordHitbox
 
 const ACCELERATION: = 500
 const MAX_SPEED: = 80
@@ -18,6 +19,7 @@ var rollVector: = Vector2.LEFT
 func _ready() -> void:
 	# only activate animation tree when the game is started
 	animTree.active = true
+	swordHitbox.knockbackVector = rollVector
 
 func _physics_process(delta: float) -> void:
 	match state:
@@ -43,6 +45,7 @@ func move_state(delta: float) -> void:
 		animTree.set("parameters/Roll/blend_position", input_vector)
 		# set roll vector to the input direction
 		rollVector = input_vector
+		swordHitbox.knockbackVector = rollVector
 		# play the run animations
 		animState.travel("Run")
 		# accelerate
