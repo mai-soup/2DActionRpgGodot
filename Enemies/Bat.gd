@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+onready var stats = $Stats
+
 const FRICTION: = 200
 const KNOCKBACK_AMOUNT: = 120
 
@@ -11,4 +13,8 @@ func _physics_process(delta: float) -> void:
 	knockback = move_and_slide(knockback)
 
 func _on_Hurtbox_area_entered(area: Area2D) -> void:
+	stats.health -= area.damage
 	knockback = area.knockbackVector * KNOCKBACK_AMOUNT
+
+func _on_Stats_no_health() -> void:
+	queue_free()
