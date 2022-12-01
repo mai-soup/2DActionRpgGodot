@@ -14,7 +14,7 @@ enum { MOVE, ROLL, ATTACK }
 
 var state: = MOVE
 var velocity: = Vector2.ZERO
-var rollVector: = Vector2.LEFT
+var rollVector: = Vector2.DOWN
 
 func _ready() -> void:
 	# only activate animation tree when the game is started
