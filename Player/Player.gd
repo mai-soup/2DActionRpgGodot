@@ -4,6 +4,8 @@ onready var animPlayer: = $AnimationPlayer
 onready var animTree: = $AnimationTree
 onready var animState = animTree.get("parameters/playback")
 onready var swordHitbox = $HitboxPivot/SwordHitbox
+onready var hurtBox: = $Hurtbox
+var stats = PlayerStats
 
 const ACCELERATION: = 500
 const MAX_SPEED: = 80
@@ -17,6 +19,7 @@ var velocity: = Vector2.ZERO
 var rollVector: = Vector2.DOWN
 
 func _ready() -> void:
+	stats.connect("no_health", self, "queue_free")
 	# only activate animation tree when the game is started
 	animTree.active = true
 	swordHitbox.knockbackVector = rollVector
@@ -82,3 +85,9 @@ func roll_anim_finished() -> void:
 func move() -> void:
 	# reassign velocity from move and slide's remnant after collision	
 	velocity = move_and_slide(velocity)
+
+
+func _on_Hurtbox_area_entered(_area: Area2D) -> void:
+	stats.health -= 1
+	hurtBox.start_invincibility(0.5)
+	hurtBox.create_hit_effect()

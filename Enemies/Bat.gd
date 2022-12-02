@@ -5,6 +5,7 @@ const EnemyDeathEffect = preload("res://Effects/EnemyDeathEffect.tscn")
 onready var stats = $Stats
 onready var playerDetector = $PlayerDetection
 onready var sprite = $AnimatedSprite
+onready var hurtBox: = $Hurtbox
 
 const KNOCKBACK_FRICTION: = 200
 const KNOCKBACK_AMOUNT: = 120
@@ -47,6 +48,8 @@ func seek_player() -> void:
 func _on_Hurtbox_area_entered(area: Area2D) -> void:
 	stats.health -= area.damage
 	knockback = area.knockbackVector * KNOCKBACK_AMOUNT
+	hurtBox.start_invincibility(0.5)
+	hurtBox.create_hit_effect()
 
 func _on_Stats_no_health() -> void:
 	queue_free()

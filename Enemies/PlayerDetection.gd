@@ -8,5 +8,5 @@ func can_see_player():
 func _on_PlayerDetection_body_entered(body: Node) -> void:
 	player = body
 
-func _on_PlayerDetection_body_exited(body: Node) -> void:
+func _on_PlayerDetection_body_exited(_body: Node) -> void:
 	player = null
