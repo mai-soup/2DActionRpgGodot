@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://Player/Player.png" type="Texture" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
@@ -12,7 +12,7 @@
 
 [sub_resource type="ShaderMaterial" id=49]
 shader = ExtResource( 9 )
-shader_param/is_active = true
+shader_param/is_active = false
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 4.0
@@ -763,21 +763,6 @@ height = 14.0
 radius = 5.0
 height = 4.0
 
-[sub_resource type="Animation" id=52]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:material:shader_param/is_active")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ true ]
-}
-
 [sub_resource type="Animation" id=50]
 resource_name = "Start"
 length = 0.2
@@ -883,7 +868,6 @@ stream = ExtResource( 7 )
 volume_db = -10.706
 
 [node name="BlinkAnimPlayer" type="AnimationPlayer" parent="."]
-anims/RESET = SubResource( 52 )
 anims/Start = SubResource( 50 )
 anims/Stop = SubResource( 51 )
 
