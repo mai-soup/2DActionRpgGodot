@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=60 format=2]
 
 [ext_resource path="res://World/Bush.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Enemies/Bat.tscn" type="PackedScene" id=7]
 [ext_resource path="res://UI/HealthUI.tscn" type="PackedScene" id=8]
 [ext_resource path="res://World/Tree.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Camera2D.tscn" type="PackedScene" id=10]
 
 [sub_resource type="TileSet" id=1]
 0/name = "DirtTileset.png 0"
@@ -507,10 +508,14 @@ collision_mask = 0
 format = 1
 tile_data = PoolIntArray( -65528, 0, 0, -65527, 0, 1, -65526, 0, 2, 0, 0, 196608, 1, 0, 7, 8, 0, 65536, 9, 0, 65537, 10, 0, 65538, 65537, 0, 131075, 65544, 0, 131072, 65545, 0, 131073, 65546, 0, 131074, 327679, 0, 0, 262144, 0, 2, 262149, 0, 196608, 262150, 0, 6, 262151, 0, 1, 262152, 0, 2, 393215, 0, 65536, 327680, 0, 131077, 327681, 0, 2, 327686, 0, 65536, 327687, 0, 65537, 327688, 0, 262149, 327689, 0, 196610, 458751, 0, 131072, 393216, 0, 131073, 393217, 0, 131074, 393222, 0, 131072, 393223, 0, 131073, 393224, 0, 131074 )
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" parent="." instance=ExtResource( 10 )]
 position = Vector2( 96, 48 )
-current = true
-smoothing_enabled = true
+
+[node name="TopLeft" parent="Camera2D/Limits" index="0"]
+position = Vector2( -504, -296 )
+
+[node name="BottomRight" parent="Camera2D/Limits" index="1"]
+position = Vector2( 504, 296 )
 
 [node name="YSort" type="YSort" parent="."]
 
@@ -580,3 +585,5 @@ position = Vector2( 200, 88 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HealthUI" parent="CanvasLayer" instance=ExtResource( 8 )]
+
+[editable path="Camera2D"]
