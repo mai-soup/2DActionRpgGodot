@@ -19,6 +19,7 @@ var velocity: = Vector2.ZERO
 var rollVector: = Vector2.DOWN
 
 func _ready() -> void:
+	randomize()
 	stats.connect("no_health", self, "queue_free")
 	# only activate animation tree when the game is started
 	animTree.active = true
